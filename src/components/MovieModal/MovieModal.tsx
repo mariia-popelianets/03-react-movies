@@ -18,7 +18,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, []);
+  }, [onClose]);
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -31,9 +31,13 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
       className={css.backdrop}
       role="dialog"
       aria-modal="true"
-      onClick={onClose}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
     >
-      <div className={css.modal} onClick={(event) => event.stopPropagation()}>
+      <div className={css.modal}>
         <button
           className={css.closeButton}
           aria-label="Close modal"
